@@ -207,7 +207,7 @@ update { event, cursor, handlers } model =
 
 And with that the we've completed the hard work for this particular example. You don't have to take my word for it! You can find the complete source code for this example [here][].
 
-## Third and final example, an outline editor
+## Last example: an outline editor
 
 Our final example is an outline editor. An outline is a tool for organizing our thoughts on a subject, but creating a list of concepts related to the thought, each of which have their own related thoughts, and so forth. Take the following example:
 
@@ -218,35 +218,48 @@ Our final example is an outline editor. An outline is a tool for organizing our 
     - Dentists
     - Sharp
 
-For this example we're going to focus on being able to rearrange such outlines by dragging around their nodes. A fully functioning outline editor should also allow you to write new nodes, but because that's not a drag & drop concern we're going to gloss over that functionality here.
+For this example we're going to focus on being able to rearrange such outlines by dragging around their nodes. We'll skip over functionality for creating and deleting nodes to keep our focus on drag & drop behavior.
 
-We'll start by creating a model for our outline editor. It will need to keep track of two things: the outline itself and, optionally, which node is currently being dragged.
+We'll start by creating a model for our outline editor. It will need to keep track of two things: the outline itself and, optionally, which node we're dragging.
 
 ```elm
 type alias Model =
     { outline : List OutlineNode
+    , draggedNode : Maybe DraggedNode
+    }
+
+type alias DraggedNode =
     -- For simplicity sake we're going to use the node's contents as an id.
     -- We get away with that here because we can ensure the nodes are unique:
     -- the user will not be able to edit them in this example.
-    , draggedNode : Maybe ( String, Coords )
+    { node : String
+    , cursorOnScreen : Coords
+    , cursorOnDraggable : Coords
     }
 
-type OutlineNode
-    = OutlineNode
-        { text : String
-        , children : List OutlineNode
+type alias OutlineNode =
+    Tree String
+
+type Tree a
+    = Tree
+        { node : a
+        , children : List (Tree a)
         }
 ```
 
-There's three pieces of functionality we'll need to implement:
+Now we'll need to write behavior for the drag start, move, and end events.
 
-First, when the user presses down we need whether they selected a node and if so which one. There's a number of different ways in which we can approach this, one of which we used in the previous example. We're going to skip this part of the implementation for this example, but it's part of the full source code if you're interested!
+The drag starts when the user pressed down on a node. We can put an `onClick` handler on each node to detect when this happens. We'll skip the implementation in this post, but it's part of the full source code if you're interested!
 
-Then we need to update the position of the dragged node as the user moves the cursor. This is harder, because as the user moves the cursor we'll want to draw the dragged node in the position it will end up if the user releases the cursor. To achieve this we're just going to go ahead and do the necessary work: we'll change the outline in our model and move the node we're dragging to the position best fitting the cursors current position.
+Then, as the user drags a node around we need to update that node's location in the outline. This part we're going to look at in detail.
 
-This means that when the user releases the cursor, there's almost nothing for us to do. We already changed the outline while the user moved the cursor, and so all that's left to do is set `draggedNode` to `Nothing` in the model to indicate the drag is over.
+Lastly the drag stop event. We already changed the outline while the user was moving the cursor, and so all that's left to do is change the model to its non-dragging state by setting `draggedNode` to `Nothing`.
 
-Our hardest task is to figure out where to put our dragged node when the user moves the cursor. There's many possibilities: A user might want to move the node in front of another node, behind it, or nested beneath it. We could draw invisible boxes in those positions that activate when the user moves over them, but the experience is unlikely to be great. Make the boxes too small and the user will not spend a lot of time over them, making the interface unresponsive for most of the time. Make the boxes too big though and they start to overlap, causing the upper box instead of the closest one that will receive the dragged node.
+### Moving nodes in an outline
+
+And so our hardest task is figuring out where to put our dragged node when the user moves the cursor. What might the user intent when dragging the cursor to a certain location? To move the dragged node in front of another node, behind it, or nested beneath it?
+
+We could draw invisible boxes in those positions that activate when the user moves over them, but the experience is unlikely to be great. Make the boxes too small and the user will not spend a lot of time over them, making the interface unresponsive for most of the time. Make the boxes too big though and they start to overlap, causing the upper box instead of the closest one that will receive the dragged node.
 
 Lets again forget about dropzones and think about the behavior we want. As the user moves, we'd like to display the candidate node in the legal location closest to the cursor position. To be able to figure out which legal location is closest, we need to know where the legal locations are. To do this we are going to put invisible elements in the DOM at each location where we can move a node. In contrary to dropzones though, we're not going to bother giving these elements any special dimensions or positioning. We want them to just flow with the content on the page, and tell us their location when there's a drag going on.
 

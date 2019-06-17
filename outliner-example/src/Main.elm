@@ -20,10 +20,24 @@ type alias Model =
 
 
 type alias DraggedNode =
+    -- For simplicity sake we're going to use the node's contents as an id.
+    -- We get away with that here because we can ensure the nodes are unique:
+    -- the user will not be able to edit them in this example.
     { node : String
     , cursorOnScreen : Coords
     , cursorOnDraggable : Coords
     }
+
+
+type alias OutlineNode =
+    Tree String
+
+
+type Tree a
+    = Tree
+        { node : a
+        , children : List (Tree a)
+        }
 
 
 type Msg
@@ -40,17 +54,6 @@ type alias DragMsg =
 
 type alias Beacon =
     ( CandidatePosition, Rect )
-
-
-type alias OutlineNode =
-    Tree String
-
-
-type Tree a
-    = Tree
-        { node : a
-        , children : List (Tree a)
-        }
 
 
 type CandidatePosition
