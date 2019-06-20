@@ -117,7 +117,7 @@ You can find the full example online.
 
 Our second example is a tool for drawing polygons. For this example we'll work on moving the vertices of an existing polygon. When pressing down we'd like to grab the closest vertex within 50 pixels of the cursor. That vertex should then follow the cursor until the user releases it.
 
-[Animated picture of polygon drawer]
+![Animated picture of polygon editor][polygon.gif]
 
 This example looks like a better use for draggables & dropzones than the previous one. You see those vertices? Those sure look like draggables! The problem here is that the vertices are small and hard to miss, so we'll want draggables to be bigger. We could achieve this by making the draggables be invisible `div` elements drawn around the vertices, but that approach breaks down when the `div` elements are close enough to overlap. At that point a click won't select the closest vertex but the vertex higher in the stacking order.
 
@@ -295,3 +295,4 @@ When we need to perform a complicated task, its natural to start by looking for 
 I've showed a different approach to building drag & drop UI's. This approach uses 'beacons', elements we mark because we'd like to know their position in the DOM for every drag event. I hope I have convinced you that using these we can build great drag & drop experiences without the corner cases.
 
 [slider.gif]: ./imgs/slider.gif
+[polygon.gif]: ./imgs/polygon.gif
