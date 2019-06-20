@@ -90,13 +90,19 @@ init : Model
 init =
     { outline =
         [ Tree
-            { node = "root"
+            { node = "Sharks"
             , children =
-                [ Tree { node = "child1", children = [] }
-                , Tree
-                    { node = "child2"
+                [ Tree
+                    { node = "Sea"
                     , children =
-                        [ Tree { node = "grandchild", children = [] }
+                        [ Tree { node = "Water", children = [] }
+                        ]
+                    }
+                , Tree
+                    { node = "Teeth"
+                    , children =
+                        [ Tree { node = "Dentists", children = [] }
+                        , Tree { node = "Bubble gum", children = [] }
                         ]
                     }
                 ]

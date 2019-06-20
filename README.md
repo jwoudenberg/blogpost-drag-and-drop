@@ -18,7 +18,7 @@ On closer inspection though, things aren't as clear cut. For example, when you m
 
 Our first example is a UI for selecting a time slot in a day. This UI represents a day as a horizontal bar, in which you can select a slot using drag & drop.
 
-![Animated picture of time slider in use][slider.gif]
+![Selecting a time slot by drag & drop][slider.gif]
 
 I'd like to start these examples by what a draggables + dropzones implementation might look like. Right of the bat we run into trouble, because it's unclear what our draggables and dropzones are. If we wanted to we could make the time slider the draggable since clicking anywhere in it should start the drag operation, even if we don't drag the time slider itself. The screen as a whole might serve as a dropzone, because the user should be able to release the cursor anywhere. We can try this and hope our trickery will fly (well, drag), or we can try take a more direct approach.
 
@@ -117,7 +117,7 @@ You can find the full example online.
 
 Our second example is a tool for drawing polygons. For this example we'll work on moving the vertices of an existing polygon. When pressing down we'd like to grab the closest vertex within 50 pixels of the cursor. That vertex should then follow the cursor until the user releases it.
 
-![Animated picture of polygon editor][polygon.gif]
+![Dragging a vertex of a polygon][polygon.gif]
 
 This example looks like a better use for draggables & dropzones than the previous one. You see those vertices? Those sure look like draggables! The problem here is that the vertices are small and hard to miss, so we'll want draggables to be bigger. We could achieve this by making the draggables be invisible `div` elements drawn around the vertices, but that approach breaks down when the `div` elements are close enough to overlap. At that point a click won't select the closest vertex but the vertex higher in the stacking order.
 
@@ -207,16 +207,11 @@ And with that the we've completed the hard work for this particular example. You
 
 ## Last example: an outline editor
 
-Our final example is an outline editor. An outline is a tool for organizing our thoughts on a subject, but creating a list of concepts related to the thought, each of which have their own related thoughts, and so forth. Take the following example:
+Our final example is an outline editor. An outline is a tool for organizing our thoughts on a subject, but creating a list of concepts related to the thought, each of which have their own related thoughts, and so forth. The following image shows an example outline, which can be re-arranged using drag & drop.
 
-- Sharks
-  - Sea
-    - Water
-  - Teeth
-    - Dentists
-    - Sharp
+![Rearranging outline nodes using drag & drop][outline.gif]
 
-For this example we're going to focus on being able to rearrange such outlines by dragging around their nodes. We'll skip over functionality for creating and deleting nodes to keep our focus on drag & drop behavior.
+For this example we'll skip functionality for creating and deleting nodes to keep our focus on drag & drop behavior.
 
 We'll start by creating a model for our outline editor. It will need to keep track of two things: the outline itself and, optionally, which node we're dragging.
 
@@ -296,3 +291,4 @@ I've showed a different approach to building drag & drop UI's. This approach use
 
 [slider.gif]: ./imgs/slider.gif
 [polygon.gif]: ./imgs/polygon.gif
+[outline.gif]: ./imgs/outline.gif
