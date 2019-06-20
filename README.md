@@ -81,7 +81,7 @@ cursorAtHour { cursor, sliderPosition } =
         |> atLeast 0
 ```
 
-All that's left to do is use this in our `update` function. When we get a `Start` event we update the `from` field in the model, and when we get a `StopOrMove` event the `to` field.
+All that's left to do is use this in our `update` function. When we get a `Start` event we update the `from` field in the model, and when we get a `MoveOrStop` event the `to` field.
 
 ```elm
 update : Msg -> Model -> Model
