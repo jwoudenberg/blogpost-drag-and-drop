@@ -18,7 +18,7 @@ On closer inspection though, things aren't as clear cut. For example, when you m
 
 Our first example is a UI for selecting a time slot in a day. This UI represents a day as a horizontal bar, in which you can select a slot using drag & drop.
 
-[Animated Picture of time slider]
+![Animated picture of time slider in use][slider.gif]
 
 I'd like to start these examples by what a draggables + dropzones implementation might look like. Right of the bat we run into trouble, because it's unclear what our draggables and dropzones are. If we wanted to we could make the time slider the draggable since clicking anywhere in it should start the drag operation, even if we don't drag the time slider itself. The screen as a whole might serve as a dropzone, because the user should be able to release the cursor anywhere. We can try this and hope our trickery will fly (well, drag), or we can try take a more direct approach.
 
@@ -295,3 +295,5 @@ It's a tricky function to write, but it doesn't have much to do with drag & drop
 When we need to perform a complicated task, its natural to start by looking for a library to do the heavy lifting for us. Unfortunately I've not found this approach fruitful in building drag & drop interfaces. I believe this is because the draggables and dropzones that are central to the libraries I've tried were not a great fit for the experiences I tried to build, of which I gave three examples in this post.
 
 I've showed a different approach to building drag & drop UI's. This approach uses 'beacons', elements we mark because we'd like to know their position in the DOM for every drag event. I hope I have convinced you that using these we can build great drag & drop experiences without the corner cases.
+
+[slider.gif]: ./imgs/slider.gif
