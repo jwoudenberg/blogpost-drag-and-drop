@@ -112,7 +112,7 @@ coordsInRect =
     Debug.todo "Implementation omitted for brevity."
 ```
 
-And we have an app! Well almost, we've not discussed where these `Msg`s will be coming from. There's a bit of JavaScript responsible for that, which I'll talk more about in a bit. If you want to peak ahead check out the [time slider source code].
+And we have an app! Well almost, we've not discussed where these `Msg`s will be coming from. There's a bit of JavaScript responsible for that, which I'll talk more about in a bit. If you want to peek ahead check out the [time slider source code].
 
 ## Second example, a polygon editor
 
