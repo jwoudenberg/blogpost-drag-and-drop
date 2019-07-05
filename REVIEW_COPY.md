@@ -1,6 +1,6 @@
 # Drag & Drop without Draggables & Dropzones
 
-Drag & drop UIs have been around for a while, and so you would be forgiven for thinking they're a solved problem. Certainly there's high quality libraries to help us build drag & drop UIs, and these days we even have an official HTML5 drag & drop API! Why then is building drag & drop UIs so hard?
+Why is building drag & drop UIs so hard? They've have been around for a while, so you would be forgiven for thinking they're a solved problem. Certainly there's high quality libraries to help us build drag & drop UIs, and these days we even have an official HTML5 drag & drop API! What's going on here?
 
 Having built some drag & drop UIs I've come to the conclusion a big part of the problem is our choice of tools. Those tools are the draggables and dropzones most libraries provide for building drag & drop interactions. Not using draggables and dropzones to build UIs often simplifies their construction massively.
 
