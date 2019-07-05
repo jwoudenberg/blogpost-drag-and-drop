@@ -38,7 +38,7 @@ type alias Hour =
 
 Now for the drag & drop behavior. In our example all you can do is drag left-to-right. This means that when the user presses down we store the hour the cursor is over as the left bound of the time slot. Then as the cursor moves to the right we will update the `until` time of the timeslot, until the user releases.
 
-We will need to know which our the cursor is over. We can calculate this if we know the position of the cursor and the position and dimensions of the slider on the screen. Lets be optimistic and assume we just get that information. Our `Msg` type we design like this:
+We will need to know which hour the cursor is over. We can calculate this if we know the position of the cursor and the position and dimensions of the slider on the screen. Lets be optimistic and assume we just get that information. Our `Msg` type we design like this:
 
 ```elm
 type alias Msg =
