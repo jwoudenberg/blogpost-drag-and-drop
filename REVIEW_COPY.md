@@ -32,13 +32,13 @@ Lets start again from scratch without assuming draggables or dropzones this time
 -- In this example a time slot always covers whole hours,
 -- but we could make this minutes or seconds if we wanted.
 type alias Model =
-    { from : Hour, until : Hour }
+    { selectionStart : Hour, selectionEnd : Hour }
 
 type alias Hour =
     Int
 ```
 
-Now for the drag & drop behavior. In our example we'll limit ourselves to supporting dragging from left-to-right. This means that when the user presses down we store the hour the cursor is over as the left bound of the time slot. Then as the cursor moves to the right we will update the `until` time of the timeslot, until the user releases.
+Now for the drag & drop behavior. When the user presses down we store the hour the cursor is over as the `selectionStart` field of the timeslot. Then as the cursor moves we will update the `selectionEnd` field of the timeslot, until the user releases.
 
 At any point we will need to know which hour the cursor is over. We can calculate this if we know the position of the cursor and the position and dimensions of the slider on the screen. Lets be optimistic and assume we just get that information on our drag events. If so we can design our `Msg` type like this:
 
@@ -85,7 +85,7 @@ cursorAtHour { cursor, sliderPosition } =
         |> atLeast 0
 ```
 
-All that's left to do is use `cursorAtHour` in our `update` function. When we get a `Start` event we use it to update the `from` field in the model, and when we get a `MoveOrStop` event the `until` field.
+All that's left to do is use `cursorAtHour` in our `update` function. When we get a `Start` event we use it to update the `selectionStart` field in the model, and when we get a `MoveOrStop` event the `selectionEnd` field.
 
 ```elm
 update : Msg -> Model -> Model
@@ -97,8 +97,8 @@ update msg model =
     case msg.event of
         Start ->
             if coordsInRect msg.cursor msg.sliderPosition then
-                { from = hour
-                , until = hour + 1
+                { selectionStart = hour
+                , selectionEnd = hour
                 }
 
             else
@@ -106,7 +106,7 @@ update msg model =
 
         MoveOrStop ->
             { model
-                | until = 1 + max hour model.from
+                | selectionEnd = hour
             }
 
 coordsInRect : Coords -> Rect -> Bool
