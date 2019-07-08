@@ -14,7 +14,7 @@ port dragEvents : (Json.Decode.Value -> msg) -> Sub msg
 but we could make this minutes or seconds if we wanted.
 -}
 type alias Model =
-    { from : Hour, until : Hour }
+    { selectionStart : Hour, selectionEnd : Hour }
 
 
 type alias Hour =
@@ -55,7 +55,7 @@ main =
 
 init : Model
 init =
-    { from = 0, until = 0 }
+    { selectionStart = 0, selectionEnd = 0 }
 
 
 
@@ -71,8 +71,8 @@ update msg model =
     case msg.event of
         Start ->
             if coordsInRect msg.cursor msg.sliderPosition then
-                { from = hour
-                , until = hour + 1
+                { selectionStart = hour
+                , selectionEnd = hour
                 }
 
             else
@@ -80,7 +80,7 @@ update msg model =
 
         MoveOrStop ->
             { model
-                | until = 1 + max hour model.from
+                | selectionEnd = hour
             }
 
 
@@ -129,12 +129,12 @@ view model =
 
 
 viewTimeSlot : Model -> Html msg
-viewTimeSlot { from, until } =
+viewTimeSlot { selectionStart, selectionEnd } =
     Html.div
         [ style "position" "absolute"
         , style "top" "0"
-        , style "left" (viewPercentage (percentageOfDay from))
-        , style "width" (viewPercentage (percentageOfDay (until - from)))
+        , style "left" (viewPercentage (percentageOfDay (min selectionStart selectionEnd)))
+        , style "width" (viewPercentage (percentageOfDay (1 + abs (selectionEnd - selectionStart))))
         , style "height" "100%"
         , style "background-color" "black"
         ]
